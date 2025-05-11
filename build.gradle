@@ -16,6 +16,10 @@ tasks.withType(JavaExec) {
     jvmArgs '--add-exports=java.base/sun.nio.ch=ALL-UNNAMED'
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     // Spring Boot Starter Web for REST APIs
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -35,9 +39,13 @@ dependencies {
     // Data manipulation
     implementation("org.apache.commons:commons-lang3:3.17.0")
 
+    implementation("org.apache.commons:commons-text:1.13.1")
+
     // Apache Spark Core and SQL
 
     // Testing libraries
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.12.2")
 }
 
