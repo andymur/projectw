@@ -1,0 +1,6 @@
+/.idea/*
+.gradle/*
+build/*
+/.idea/compiler.xml
+/.idea/vcs.xml
+/build/
