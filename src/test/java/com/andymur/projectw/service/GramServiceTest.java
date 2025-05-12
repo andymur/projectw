@@ -11,6 +11,7 @@ class GramServiceTest {
     void generateBiGrams() {
         GramService gramService = new GramService();
         List<String> bigrams = gramService.createNGram("hello", 2);
-        System.out.println(bigrams);
+        assertEquals(4, bigrams.size());
+        assertEquals(List.of("he", "el", "ll", "lo"), bigrams);
     }
 }
