@@ -86,6 +86,28 @@ public class TfidfVectorizer {
                 .collect(Collectors.toList());
     }
 
+    public static double computeCosineSimilarity(double[] vecA, double[] vecB) {
+        if (vecA.length != vecB.length) {
+            throw new IllegalArgumentException("Vectors must be of same length");
+        }
+
+        double dotProduct = 0.0;
+        double normA = 0.0;
+        double normB = 0.0;
+
+        for (int i = 0; i < vecA.length; i++) {
+            dotProduct += vecA[i] * vecB[i];
+            normA += Math.pow(vecA[i], 2);
+            normB += Math.pow(vecB[i], 2);
+        }
+
+        if (normA == 0.0 || normB == 0.0) {
+            return 0.0; // avoid division by zero
+        }
+
+        return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+    }
+
     public static void main(String[] args) {
         List<String> docs = Arrays.asList(
                 "The quick brown fox",
@@ -101,6 +123,14 @@ public class TfidfVectorizer {
         System.out.println("Features: " + features);
         for (double[] vec : tfidfVectors) {
             System.out.println(Arrays.toString(vec));
+        }
+
+        for (int i = 0; i < docs.size() - 1; i++) {
+            for (int j = i + 1; j < docs.size(); j++) {
+                System.out.printf("Cosine similarity between %s & %s is: %f%n", docs.get(i), docs.get(j),
+                            computeCosineSimilarity(tfidfVectors.get(i), tfidfVectors.get(j))
+                        );
+            }
         }
     }
 }
