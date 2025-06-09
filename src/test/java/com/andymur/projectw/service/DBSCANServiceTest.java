@@ -8,14 +8,15 @@ class DBSCANServiceTest {
 
     @Test
     public void testClusterer() {
-        DBSCANService dbscanService = new DBSCANService(0.6, 2);
+        DBSCANService dbscanService = new DBSCANService(0.7, 2);
         dbscanService.clusterAndPrintResults(
                 List.of(
-                    "Amazon",
+                    "Amzon",
                     "Microsoft",
                     "Amazon corp",
                     "Amazon corporation",
-                    "Microsoft Inc"
+                    "Microsoft Inc",
+                    "Microsoft America"
                 )
         );
     }

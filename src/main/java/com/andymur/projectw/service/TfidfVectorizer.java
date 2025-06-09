@@ -7,6 +7,8 @@ public class TfidfVectorizer {
 
     private final Map<String, Integer> vocabulary = new HashMap<>();
     private final Map<String, Double> idfScores = new HashMap<>();
+    private final GramService gramService = new GramService();
+    private final boolean tokenizeWords = false;
 
     // Fit the vectorizer to documents
     public void fit(List<String> documents) {
@@ -14,7 +16,7 @@ public class TfidfVectorizer {
         List<Set<String>> docTerms = new ArrayList<>();
 
         for (String doc : documents) {
-            Set<String> tokens = tokenize(doc);
+            Set<String> tokens = tokenizeWords ? tokenize(doc) : tokenizeNgrams(doc);
             docTerms.add(tokens);
             allTerms.addAll(tokens);
         }
@@ -46,7 +48,7 @@ public class TfidfVectorizer {
             double[] vector = new double[vocabulary.size()];
             Map<String, Integer> termCounts = new HashMap<>();
 
-            List<String> tokens = new ArrayList<>(tokenize(doc));
+            List<String> tokens = new ArrayList<>(tokenizeWords ? tokenize(doc) : tokenizeNgrams(doc));
             for (String token : tokens) {
                 termCounts.put(token, termCounts.getOrDefault(token, 0) + 1);
             }
@@ -75,6 +77,10 @@ public class TfidfVectorizer {
         return Arrays.stream(document.toLowerCase().split("\\W+"))
                 .filter(token -> !token.isBlank())
                 .collect(Collectors.toSet());
+    }
+
+    private Set<String> tokenizeNgrams(String document) {
+        return new HashSet<>(gramService.createNGram(document, 2));
     }
 
     // Optional: Get feature names
